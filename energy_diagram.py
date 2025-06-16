@@ -1,3 +1,11 @@
+"""
+Reaction Energy Diagram Plotter
+Author: Avory Campbell
+Columbia University, Department of Computer Science
+
+Visualizes the thermodynamic profile of chemical reactions by plotting relative enthalpy levels.
+Illustrates exothermic or endothermic character based on ΔH calculations.
+"""
 import matplotlib.pyplot as plt
 
 def plot_energy_diagram(delta_h):

@@ -1,3 +1,15 @@
+"""
+Thermochemistry Explorer
+Author: Avory Campbell
+Columbia University, Department of Computer Science
+
+A Python program for computing thermodynamic quantities (ΔH, ΔS, ΔG) from balanced chemical reactions,
+using both live scraping from the NIST Chemistry WebBook and fallback datasets.
+
+Fallback Thermodynamic Dataset: Provides hard-coded thermodynamic properties (ΔHf°, S°)
+for common chemical species in case NIST data retrieval fails. Ensures continuity and stability of
+analysis in offline or partial-data scenarios.
+"""
 
 # Fallback thermo data for common species: ΔH in kJ/mol, ΔS in J/mol·K
 FALLBACK_THERMO_DATA = {

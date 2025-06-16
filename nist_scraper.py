@@ -1,3 +1,11 @@
+"""
+NIST WebBook Scraper
+Author: Avory Campbell
+Columbia University, Department of Computer Science
+
+Fetches thermodynamic data (enthalpy, entropy) from the NIST Chemistry WebBook by parsing HTML pages.
+Used as a live data source to support accurate, real-time analysis of chemical species.
+"""
 import requests
 from bs4 import BeautifulSoup
 
