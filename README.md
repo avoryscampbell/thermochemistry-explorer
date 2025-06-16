@@ -75,10 +75,10 @@ thermochemistry-explorer/
 
 ## Acknowledgments
 
-Developed by a Columbia University undergraduate in the Departments of Computer Science. Special thanks to:
+Special thanks to:
 
-* Columbia Department of Chemistry** for foundational thermodynamics instruction
-* The NIST Chemistry WebBook** for open scientific data
+* Columbia Department of Chemistry for foundational thermodynamics instruction
+* The NIST Chemistry WebBook for open scientific data
 
 ## Goals
 
