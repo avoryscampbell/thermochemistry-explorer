@@ -1,110 +1,134 @@
+---
+
 # Thermochemistry Explorer
 
-Thermochemistry Explorer is a Python-based scientific computing tool that analyzes balanced chemical reactions to calculate thermodynamic quantities — including enthalpy (ΔH), entropy (ΔS), and Gibbs free energy (ΔG) — at user-specified temperatures. It retrieves live data from the [NIST Chemistry WebBook](https://webbook.nist.gov/chemistry/) and generates reaction energy diagrams to visualize spontaneity and thermodynamic favorability.
+Thermochemistry Explorer is a Python-based scientific computing and machine learning toolkit for analyzing chemical reactions. It computes thermodynamic quantities — enthalpy (ΔH), entropy (ΔS), and Gibbs free energy (ΔG) — at user-specified temperatures using data from the [NIST Chemistry WebBook](https://webbook.nist.gov/chemistry/). Beyond classical thermodynamics, it integrates machine learning models to predict ΔG and classify reaction spontaneity, enabling scalable, data-driven discovery.
 
-This project demonstrates how algorithmic thinking, data parsing, and visualization can drive insights in the natural sciences. It also introduces fallback logic for resilience in data-limited cases.
+This project demonstrates how algorithmic thinking, data parsing, and AI/ML can drive insights in the natural sciences — blending **scientific computing, applied machine learning, and modern software engineering**.
+
+---
 
 ## Features
 
-- Parse user-input balanced chemical equations (e.g., `CH4 + 2 O2 -> CO2 + 2 H2O`)
-- Prompt for any temperature (in Kelvin)
-- Calculate:
+* **Classical Thermodynamics**
 
-- Reaction enthalpy (ΔH, kJ/mol)
-- Entropy change (ΔS, J/mol·K)
-- Gibbs free energy (ΔG, kJ/mol)
-- Generate energy diagrams for endothermic/exothermic behavior
-- Automatically scrape from NIST or fallback to curated internal datasets for common species
+  * Parse user-input balanced chemical equations
+  * Compute ΔH, ΔS, ΔG at arbitrary temperatures
+  * Retrieve data live from NIST or fallback to curated datasets
+  * Generate energy diagrams for reaction profiles
+
+* **AI/ML Extensions**
+
+  * Train regression models (e.g., Random Forest, XGBoost) to predict ΔG from reaction features
+  * Train classifiers to predict spontaneity (ΔG < 0) across diverse reaction sets
+  * Support for custom datasets via `data/processed/` CSVs
+  * Save and reuse trained models for inference in research workflows
+  * Compare ML predictions vs classical calculations in an interactive Streamlit UI
+
+* **Engineering & Data Pipeline**
+
+  * Clean separation of classical (`core/`) and ML (`ml/`) code
+  * Automated training scripts with model cards (performance metrics, dataset info)
+  * Modular design for easy extension and reproducibility
+
+---
 
 ## Installation
 
-Clone the repository and set up a virtual environment:
-
 ```bash
-git clone https://github.com/avoryscampbell/thermochemistry-explorer.git
-cd thermochemistry-explorer
-python3 -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+git clone https://github.com/avoryscampbell/Thermochemistry-Explorer.git
+cd Thermochemistry-Explorer
+python3.11 -m venv .venv
+source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
+---
+
 ## Usage
 
+### CLI (classical mode)
 
+```bash
 python main.py
+```
 
+You’ll be prompted for:
 
-You will be prompted to enter:
+1. A balanced equation (e.g., `CH4 + 2 O2 -> CO2 + 2 H2O`)
+2. A temperature (Kelvin, e.g., `298`)
 
-1. A balanced chemical equation (e.g., `CH4 + 2 O2 -> CO2 + 2 H2O`)
-2. Temperature in Kelvin** (e.g., `298`)
+### ML Training
 
-The tool will then:
+```bash
+python -m ml.train_regression data/processed/delta_g.csv
+python -m ml.train_classifier data/processed/spont.csv
+```
 
-* Parse the equation
-* Retrieve thermodynamic data (via NIST or fallback)
-* Print ΔH, ΔS, and ΔG
-* Plot an energy diagram of the reaction
+### ML Inference
 
-## Example
+```bash
+python -m ml.infer "CH4 + 2 O2 -> CO2 + 2 H2O"
+```
+
+### Streamlit (interactive UI)
+
+```bash
+streamlit run app_ml.py
+```
+
+---
+
+## Example Output
+
+**Classical calculation (298 K):**
 
 ```
-Enter a balanced chemical equation (e.g., CH4 + 2 O2 -> CO2 + 2 H2O): CH4 + 2 O2 -> CO2 + 2 H2O
-Enter temperature in Kelvin: 298
-
 ΔH = -802.30 kJ/mol
 ΔS = 10.10 J/mol·K
 ΔG = -805.31 kJ/mol
 ```
 
-Energy diagram displayed in a Matplotlib window.
+**ML prediction (trained RF model):**
+
+```
+Predicted ΔG = -798.2 kJ/mol
+Spontaneity Class = Spontaneous
+```
+
+---
 
 ## Project Structure
 
 ```
 thermochemistry-explorer/
 │
-├── main.py                     # Entry point
-├── equation_parser.py          # Parses chemical equations
-├── nist_scraper.py             # Scrapes thermodynamic data from NIST
-├── fallback_thermo_data.py     # Fallback dataset for common species
-├── energy_diagram.py           # Plots energy diagrams
-├── requirements.txt            # Python dependencies
-└── README.md                   # This file
+├── core/                 # Classical thermodynamics
+├── ml/                   # ML training, inference, features
+├── data/processed/       # CSVs for regression/classification
+├── models/               # Saved model artifacts
+├── app_ml.py             # Streamlit interface
+├── requirements.txt
+└── README.md
 ```
-
-## Acknowledgments
-
-Developed by a Columbia University undergraduate in the Departments of Computer Science. Special thanks to:
-
-* Columbia Department of Chemistry** for foundational thermodynamics instruction
-* The NIST Chemistry WebBook** for open scientific data
-
-## Goals
-
-This project was created to:
-
-* Demonstrate scientific computing fluency
-* Integrate real-time data acquisition (web scraping)
-* Show domain crossover from chemistry to software engineering
-* Prepare for internships in software engineering, research, and quantitative finance
-
-## License
-
-This project is open source under the MIT License.
 
 ---
 
-Planned Enhancements:
+## Roadmap
 
-* Expand this into a Streamlit web app
-* Implement formal benchmarking of thermodynamic parsing and calculation pipeline using large test suites
-* Develop performance metrics to support quantitative performance claims
-* Optimize reaction parsing and thermodynamic data retrieval using advanced data structures post-DSA coursework at Columbia
+* Expand datasets via NIST WebBook scraping
+* Incorporate molecular descriptors (e.g., RDKit features)
+* Add SHAP/feature importance for ML interpretability
+* Benchmark across multiple ML algorithms
+* Deploy web app for public access
+
+---
 
 ## Author
 
-Created by Avory Campbell, B.A. Candidate in Computer Science, Columbia University  
-Project developed as an intersection of computer science and chemistry to explore algorithmic approaches to thermodynamic computation.
+Created by **Avory Campbell**
+B.A. Candidate in Computer Science, Columbia University
 
-For academic or professional inquiries, please contact via [GitHub](https://github.com/avoryscampbell) or [LinkedIn](https://www.linkedin.com/in/avory-campbell).
+Blending **scientific computing and AI/ML** to explore how algorithms transform raw data into interpretable, predictive insights.
+
+---
